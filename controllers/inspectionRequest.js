@@ -20,7 +20,7 @@ const getInspectionRequestById = async (req, res) => {
     const inspectionId = req.params.id;
     const inspectionRequest = await InspectionRequest.findByPk(inspectionId);
     if (!inspectionRequest) {
-      return res.status(404).send({ message: "Product not found" });
+      return res.status(404).send({ message: "not found" });
     }
     res.status(200).send(inspectionRequest); //the request was successful
   };

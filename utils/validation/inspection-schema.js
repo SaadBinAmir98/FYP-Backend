@@ -7,4 +7,11 @@ const inspectionRequestSchema = Joi.object({
   status: Joi.boolean().required()
 });
 
-module.exports = {inspectionRequestSchema};
+const inspectionUpdateSchema = Joi.object({
+  modelName: Joi.string(),
+  homeAddress: Joi.string(),
+  date: Joi.date(),
+  status: Joi.boolean()
+}).min(1);
+
+module.exports = {inspectionRequestSchema,inspectionUpdateSchema};

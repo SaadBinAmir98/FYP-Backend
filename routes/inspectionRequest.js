@@ -15,7 +15,8 @@ const { validateRequest } = require("../middlewares/validate-request");
 
 // validation
 const {
-    inspectionRequestSchema
+    inspectionRequestSchema,
+    inspectionUpdateSchema
   } = require("../utils/validation/inspection-schema");
 
 // routes
@@ -26,6 +27,6 @@ router.post("/", validateToken, validateRequest(inspectionRequestSchema), saveIn
 
 router.delete("/:id", validateToken, deleteinspectionRequestById);
 
-router.patch("/:id", validateToken,validateRequest(inspectionRequestSchema), updateInspectionRequest) 
-//to do: update request schema to be made and replaced here.
+router.patch("/:id", validateToken,validateRequest(inspectionUpdateSchema), updateInspectionRequest) 
+
 module.exports = router;
