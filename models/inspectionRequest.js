@@ -1,14 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
 const InspectionRequest = sequelize.define('InspectionRequest', {
-    inspectionId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false
-    },
-    modelName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+  inspectionId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    allowNull: false,
+    autoIncrement: true, 
+  },
+    productId: {
+      type: DataTypes.INTEGER, 
+      allowNull: false,
+  },
     date: {
       type: DataTypes.DATE,
       allowNull: false
@@ -23,18 +24,17 @@ const InspectionRequest = sequelize.define('InspectionRequest', {
       defaultValue: false,
     }
   });
-  
-  InspectionRequest.associate = (models) => {
-    InspectionRequest.belongsTo(models.Users, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    InspectionRequest.belongsTo(models.Products, {
-      foreignKey: "productId",
-      onDelete: "CASCADE",
-    });
-  };
 
+InspectionRequest.associate = (models) => {
+  InspectionRequest.belongsTo(models.Users, {
+    foreignKey: "userId",
+    onDelete: "CASCADE",
+  });
+  InspectionRequest.belongsTo(models.Products, {
+    foreignKey: "productId",
+    onDelete: "CASCADE",
+  });
+};
 
   return InspectionRequest;
 };

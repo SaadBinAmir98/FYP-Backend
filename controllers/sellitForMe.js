@@ -2,8 +2,8 @@ const { SellitForMe } = require("../models");
 
 // Add a new request
 const saveSellRequest = async (req, res) => {
-    const { name, phoneNumber, Address, mobileDescription, inspectionSlot, inspectionTime } = req.body;
-    await SellitForMe.create({ name, phoneNumber, Address, mobileDescription, inspectionSlot, inspectionTime });
+    const { userName, emailAddress, phoneNumber, address, modelName, mobileDescription, inspectionSlot, inspectionTime } = req.body;
+    await SellitForMe.create({ userName, emailAddress,phoneNumber, address, modelName, mobileDescription, inspectionSlot, inspectionTime });
     res.status(201).send({ message: "Sell request saved successfully" }); 
   };
   
@@ -27,7 +27,7 @@ const getSellRequestById = async (req, res) => {
 const deleteSellRequestById = async (req, res) => {
   const SellitForMeID = req.params.id;
 
-  const sellitForMe = await SellitForMe.findOne({ where: { sellitForMe } });
+  const sellitForMe = await SellitForMe.findOne({ where: { SellitForMeID } });
   if (!sellitForMe) {
     return res.status(404).send({ message: "Inspection request not found" });
   }

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    modelName: {  
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     
-    isFeaturedAd: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false, 
-    },
+    // isFeaturedAd: { to be used afterwards
+    //   type: DataTypes.BOOLEAN,
+    //   defaultValue: false, 
+    // },
   });
 
   Products.associate = (models) => {

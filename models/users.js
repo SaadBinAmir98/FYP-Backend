@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
 
-    userType: {
-      type: DataTypes.ENUM('admin', 'customer'),
-      defaultValue: 'customer', 
-    },
+    // userType: {
+    //   type: DataTypes.ENUM('admin', 'customer'),
+    //   defaultValue: 'customer', 
+    // },
   });
 
   // hash the password before saving

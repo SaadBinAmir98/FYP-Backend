@@ -10,7 +10,7 @@ const {
 
 // middlewares
 const { validateRequest } = require("../middlewares/validate-request");
-const { isAdmin } = require("../middlewares/userRole-admin");
+// const { isAdmin } = require("../middlewares/userRole-admin"); to be added afterwards
 
 
 
@@ -23,8 +23,8 @@ const {
 router.get("/all", getAllSellRequests);
 router.get("/:id", getSellRequestById);
 
-router.post("/", validateRequest(sellitForMeRequestSchema), saveSellRequest);
+router.post("/", validateRequest(sellitForMeRequestSchema), saveSellRequest); //ADD
 
-router.delete("/:id", isAdmin ,deleteSellRequestById); // only admin can delete
+router.delete("/:id" ,deleteSellRequestById); // FYP2[only admin can delete. isAdmin middleware to be added afterwards]
 
 module.exports = router;

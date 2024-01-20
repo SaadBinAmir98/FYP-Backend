@@ -1,11 +1,16 @@
 const { InspectionRequest } = require("../models");
+const { Products } = require("../models");
 
 // Add a new inspection request
 const saveInspectionRequest = async (req, res) => {
     const userId = req.user.userId;
-    const productId = req.Products.productId;
-    const { modelName, homeAddress, date, status } = req.body;
-    await InspectionRequest.create({ userId, productId, modelName, homeAddress, date, status });
+    const { productId, date, homeAddress, status } = req.body;
+    const existingProduct = await Products.findByPk(productId);
+
+    if (!existingProduct) {
+        return res.status(404).send({ message: "Product not found" });
+    }
+    await InspectionRequest.create({ userId, productId, date, homeAddress, status });
     res.status(201).send({ message: "Inspection request saved successfully" }); //request successful and resource has been created
   };
   
@@ -46,7 +51,7 @@ const deleteinspectionRequestById = async (req, res) => {
 const updateInspectionRequest = async (req, res) => {
   const userId = req.user.userId;
   const inspectionId = req.params.id;
-  const {  modelName, homeAddress, date, status } = req.body;
+  const { date, homeAddress, status } = req.body;
 
   const inspectionRequest = await InspectionRequest.findOne({ where: { inspectionId } });
   if (!inspectionRequest) {
@@ -56,7 +61,7 @@ const updateInspectionRequest = async (req, res) => {
     return res.status(401).send({ message: "User is not authorized" });
   }
 
-  await inspectionRequest.update({  modelName, homeAddress, date, status });
+  await inspectionRequest.update({ date, homeAddress, status });
   res.status(200).send({ message: "Inspection request updated successfully" });
 };
 

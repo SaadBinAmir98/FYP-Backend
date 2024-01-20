@@ -19,8 +19,8 @@ const getProductById = async (req, res) => {
 // Add a new product
 const addNewProduct = async (req, res) => {
   const userId = req.user.userId;
-  const { name, description, price, quantity } = req.body;
-  await Products.create({ userId, name, description, price, quantity });
+  const { modelName, description, price, quantity } = req.body;
+  await Products.create({ userId, modelName, description, price, quantity });
   res.status(201).send({ message: "Product created successfully" });
 };
 
@@ -28,7 +28,7 @@ const addNewProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const userId = req.user.userId;
   const productId = req.params.id;
-  const { name, description, price, quantity } = req.body;
+  const { modelName, description, price, quantity } = req.body;
 
   const product = await Products.findOne({ where: { productId } });
   if (!product) {
@@ -38,7 +38,7 @@ const updateProduct = async (req, res) => {
     return res.status(401).send({ message: "User is not authorized" });
   }
 
-  await product.update({ name, description, price, quantity });
+  await product.update({ modelName, description, price, quantity });
   res.status(200).send({ message: "Product updated successfully" });
 };
 

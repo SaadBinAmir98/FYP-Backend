@@ -5,7 +5,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
+      userName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      emailAddress: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -13,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      Address: {
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      modelName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
