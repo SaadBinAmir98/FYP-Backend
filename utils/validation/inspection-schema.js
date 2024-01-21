@@ -4,13 +4,13 @@ const inspectionRequestSchema = Joi.object({
   productId: Joi.number().required(),
   date: Joi.date().required(),
   homeAddress: Joi.string().required(),
-  status: Joi.boolean().required()
+  status: Joi.valid('Pending','Approved').required()
 });
 
 const inspectionUpdateSchema = Joi.object({
   date: Joi.date(),
   homeAddress: Joi.string(),
-  status: Joi.boolean()
+  status: Joi.valid()
 }).min(1);
 
 module.exports = {inspectionRequestSchema,inspectionUpdateSchema};

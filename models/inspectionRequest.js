@@ -19,9 +19,8 @@ const InspectionRequest = sequelize.define('InspectionRequest', {
         allowNull: false
       },
     status: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.ENUM('Pending','Approved'),
       allowNull: false,
-      defaultValue: false,
     }
   });
 
