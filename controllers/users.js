@@ -32,14 +32,14 @@ const login = async (req, res) => {
 
 // create new user
 const signup = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, name, password } = req.body;
   const user = await Users.findOne({ where: { email } });
 
   if (user) {
     return res.status(409).send({ message: "User already exist" });
   }
 
-  await Users.create({ email, password });
+  await Users.create({ email, name, password });
   res.status(201).send({ message: "Account created successfully" });
 };
 
