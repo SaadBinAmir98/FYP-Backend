@@ -65,8 +65,8 @@ const getUserProducts = async (req, res) => {
 // Add a new product
 const addNewProduct = async (req, res) => {
   const userId = req.user.userId;
-  const { modelName, description, price, quantity, isFeaturedAd, imageURL } = req.body;
-  await Products.create({ userId, modelName, description, price, quantity, isFeaturedAd, imageURL });
+  const { modelName, description, price, quantity, isFeaturedAd, imageUri } = req.body;
+  await Products.create({ userId, modelName, description, price, quantity, isFeaturedAd, imageUri });
   res.status(201).send({ message: "Product created successfully" });
 };
 

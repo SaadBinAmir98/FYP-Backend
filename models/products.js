@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
      defaultValue: false, 
     },
 
-    imageURL: {
+    imageUri: {
       type: DataTypes.STRING
     }
 
