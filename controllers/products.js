@@ -1,26 +1,72 @@
-const { Products } = require("../models");
+const { Products, Users } = require("../models");
 
 // Get all products
 const getAllProducts = async (req, res) => {
-  const products = await Products.findAll();
+  const products = await Products.findAll({
+    include: {
+      model: Users,
+      attributes: ['contactNumber']
+    }
+  });
   res.status(200).send(products);
 };
+
+// Get products by name
+const getProductsByName = async (req, res) => {
+  const modelName = req.params.modelName;
+  const products = await Products.findAll({
+    where: { modelName },
+    include: {
+      model: Users,
+      attributes: ['contactNumber']
+    }
+  });
+  if (products.length === 0) {
+    return res.status(404).send({ message: "No products found with this name" });
+  }
+  res.status(200).send(products);
+};
+
 
 // Get product by ID
 const getProductById = async (req, res) => {
   const productId = req.params.id;
-  const product = await Products.findByPk(productId);
+  const product = await Products.findOne({
+    where: { productId },
+    include: {
+      model: Users,
+      attributes: ['contactNumber']
+    }
+  });
   if (!product) {
     return res.status(404).send({ message: "Product not found" });
   }
   res.status(200).send(product);
 };
 
+// Get products list of the logged-in user
+const getUserProducts = async (req, res) => {
+  const userId = req.params.userId;
+  const products = await Products.findAll({
+    where: { userId },
+    include: {
+      model: Users,
+      attributes: ['contactNumber']
+    }
+  });
+
+  if (products.length === 0) {
+    return res.status(404).send({ message: "No products found for this user" });
+  }
+
+  res.status(200).send(products);
+};
+
 // Add a new product
 const addNewProduct = async (req, res) => {
   const userId = req.user.userId;
-  const { modelName, description, price, quantity } = req.body;
-  await Products.create({ userId, modelName, description, price, quantity });
+  const { modelName, description, price, quantity, isFeaturedAd, imageURL } = req.body;
+  await Products.create({ userId, modelName, description, price, quantity, isFeaturedAd, imageURL });
   res.status(201).send({ message: "Product created successfully" });
 };
 
@@ -61,7 +107,9 @@ const deleteProductById = async (req, res) => {
 
 module.exports = {
   getAllProducts,
+  getProductsByName,
   getProductById,
+  getUserProducts,
   addNewProduct,
   updateProduct,
   deleteProductById,

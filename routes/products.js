@@ -3,7 +3,9 @@ const router = require("express").Router();
 // controller
 const {
   getAllProducts,
+  getProductsByName,
   getProductById,
+  getUserProducts,
   addNewProduct,
   updateProduct,
   deleteProductById,
@@ -21,8 +23,9 @@ const {
 
 // routes
 router.get("/all", getAllProducts);
+router.get("/model/:modelName", getProductsByName);
 router.get("/:id", getProductById);
-
+router.get('/user/:userId', getUserProducts);
 router.post("/", validateToken, validateRequest(addProductSchema), addNewProduct);
 router.patch("/:id", validateToken, validateRequest(updateProductSchema), updateProduct);
 

@@ -22,10 +22,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     
-    // isFeaturedAd: { to be used afterwards
-    //   type: DataTypes.BOOLEAN,
-    //   defaultValue: false, 
-    // },
+     isFeaturedAd: {
+      type: DataTypes.BOOLEAN,
+     defaultValue: false, 
+    },
+
+    imageURL: {
+      type: DataTypes.STRING
+    }
+
   });
 
   Products.associate = (models) => {
