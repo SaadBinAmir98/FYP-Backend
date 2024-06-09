@@ -1,5 +1,5 @@
 const { Products, Users } = require("../models");
-const { baseUrl } = require('../config'); // Assuming you have a configuration file with the base URL
+const config = require("../startup/config"); // Assuming you have a configuration file with the base URL
 const path = require('path');
 
 // Function to append base URL to imageUri
