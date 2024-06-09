@@ -1,8 +1,6 @@
 const { configSchema } = require("../utils/validation/config-schema");
 require("dotenv").config();
 
-module.exports = {baseUrl: 'http://localhost:5000'};
-
 module.exports = () => {
   const { PORT, JWT_KEY } = process.env;
   const { error } = configSchema.validate({ PORT, JWT_KEY });
