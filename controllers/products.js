@@ -1,4 +1,5 @@
 const { Products, Users } = require("../models");
+const path = require('path');
 
 // Get all products
 const getAllProducts = async (req, res) => {
@@ -26,7 +27,6 @@ const getProductsByName = async (req, res) => {
   }
   res.status(200).send(products);
 };
-
 
 // Get product by ID
 const getProductById = async (req, res) => {
@@ -65,9 +65,26 @@ const getUserProducts = async (req, res) => {
 // Add a new product
 const addNewProduct = async (req, res) => {
   const userId = req.user.userId;
-  const { modelName, description, price, quantity, isFeaturedAd, imageUri } = req.body;
-  await Products.create({ userId, modelName, description, price, quantity, isFeaturedAd, imageUri });
-  res.status(201).send({ message: "Product created successfully" });
+  const { modelName, description, price, quantity, isFeaturedAd } = req.body;
+
+  try {
+    // Save the file path to the database
+    const imageUri = req.file ? `/uploads/${req.file.filename}` : null;
+
+    await Products.create({
+      userId,
+      modelName,
+      description,
+      price,
+      quantity,
+      isFeaturedAd,
+      imageUri 
+    });
+
+    res.status(201).send({ message: "Product created successfully" });
+  } catch (error) {
+    res.status(500).send({ message: "Failed to create product", error: error.message });
+  }
 };
 
 // Update a product
