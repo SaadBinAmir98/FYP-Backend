@@ -1,5 +1,14 @@
 const { Products, Users } = require("../models");
+const { baseUrl } = require('../config'); // Assuming you have a configuration file with the base URL
 const path = require('path');
+
+// Function to append base URL to imageUri
+const appendBaseUrl = (products) => {
+  return products.map(product => ({
+    ...product.toJSON(),
+    imageUri: product.imageUri ? `${baseUrl}${product.imageUri}` : null
+  }));
+};
 
 // Get all products
 const getAllProducts = async (req, res) => {
@@ -10,7 +19,7 @@ const getAllProducts = async (req, res) => {
       attributes: ['contactNumber']
     }
   });
-  res.status(200).send(products);
+  res.status(200).send(appendBaseUrl(products));
 };
 
 // Get products by name
@@ -27,7 +36,7 @@ const getProductsByName = async (req, res) => {
   if (products.length === 0) {
     return res.status(404).send({ message: "No products found with this name" });
   }
-  res.status(200).send(products);
+  res.status(200).send(appendBaseUrl(products));
 };
 
 // Get product by ID
@@ -44,7 +53,10 @@ const getProductById = async (req, res) => {
   if (!product) {
     return res.status(404).send({ message: "Product not found" });
   }
-  res.status(200).send(product);
+  res.status(200).send({
+    ...product.toJSON(),
+    imageUri: product.imageUri ? `${baseUrl}${product.imageUri}` : null
+  });
 };
 
 // Get products list of the logged-in user
@@ -63,7 +75,7 @@ const getUserProducts = async (req, res) => {
     return res.status(404).send({ message: "No products found for this user" });
   }
 
-  res.status(200).send(products);
+  res.status(200).send(appendBaseUrl(products));
 };
 
 // Add a new product
