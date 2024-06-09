@@ -4,6 +4,7 @@ const path = require('path');
 // Get all products
 const getAllProducts = async (req, res) => {
   const products = await Products.findAll({
+    attributes: ['productId', 'modelName', 'description', 'price', 'quantity', 'isFeaturedAd', 'imageUri'],
     include: {
       model: Users,
       attributes: ['contactNumber']
@@ -17,6 +18,7 @@ const getProductsByName = async (req, res) => {
   const modelName = req.params.modelName;
   const products = await Products.findAll({
     where: { modelName },
+    attributes: ['productId', 'modelName', 'description', 'price', 'quantity', 'isFeaturedAd', 'imageUri'],
     include: {
       model: Users,
       attributes: ['contactNumber']
@@ -33,6 +35,7 @@ const getProductById = async (req, res) => {
   const productId = req.params.id;
   const product = await Products.findOne({
     where: { productId },
+    attributes: ['productId', 'modelName', 'description', 'price', 'quantity', 'isFeaturedAd', 'imageUri'],
     include: {
       model: Users,
       attributes: ['contactNumber']
@@ -49,6 +52,7 @@ const getUserProducts = async (req, res) => {
   const userId = req.params.userId;
   const products = await Products.findAll({
     where: { userId },
+    attributes: ['productId', 'modelName', 'description', 'price', 'quantity', 'isFeaturedAd', 'imageUri'],
     include: {
       model: Users,
       attributes: ['contactNumber']
@@ -67,24 +71,20 @@ const addNewProduct = async (req, res) => {
   const userId = req.user.userId;
   const { modelName, description, price, quantity, isFeaturedAd } = req.body;
 
-  try {
-    // Save the file path to the database
-    const imageUri = req.file ? `/uploads/${req.file.filename}` : null;
+  // Save the file path to the database
+  const imageUri = req.file ? `/uploads/${req.file.filename}` : null;
 
-    await Products.create({
-      userId,
-      modelName,
-      description,
-      price,
-      quantity,
-      isFeaturedAd,
-      imageUri 
-    });
+  await Products.create({
+    userId,
+    modelName,
+    description,
+    price,
+    quantity,
+    isFeaturedAd,
+    imageUri // Save the file path as the image URI
+  });
 
-    res.status(201).send({ message: "Product created successfully" });
-  } catch (error) {
-    res.status(500).send({ message: "Failed to create product", error: error.message });
-  }
+  res.status(201).send({ message: "Product created successfully" });
 };
 
 // Update a product
