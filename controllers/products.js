@@ -81,7 +81,7 @@ const addNewProduct = async (req, res) => {
     price,
     quantity,
     isFeaturedAd,
-    imageUri // Save the file path as the image URI
+    imageUri 
   });
 
   res.status(201).send({ message: "Product created successfully" });
