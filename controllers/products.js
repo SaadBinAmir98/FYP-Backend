@@ -1,10 +1,11 @@
 const { Products, Users } = require("../models");
+const {sendEmail} = require("../emailService"); 
 const path = require('path');
 
 // Get all products
 const getAllProducts = async (req, res) => {
   const products = await Products.findAll({
-    attributes: ['productId', 'modelName', 'description', 'price', 'quantity', 'isFeaturedAd', 'imageUri'],
+    attributes: ['productId', 'modelName', 'description', 'price', 'quantity', 'isFeaturedAd', 'imageUri', 'userId'],
     include: {
       model: Users,
       attributes: ['contactNumber']
@@ -114,12 +115,29 @@ const deleteProductById = async (req, res) => {
   if (!product) {
     return res.status(404).send({ message: "Product not found" });
   }
-  if (product.userId !== userId) {
+  if (product.userId !== userId && !req.user.isAdmin) { // Ensure only admin or the product owner can delete
     return res.status(401).send({ message: "User is not authorized" });
   }
 
+  const user = await Users.findOne({ where: { userId: product.userId } });
+  if (!user) {
+    return res.status(404).send({ message: "User not found" });
+  }
+
   await product.destroy();
-  res.status(200).send({ message: "Product deleted successfully" });
+
+  // Send notification email to the user
+  const emailSubject = "Your product has been deleted";
+  const emailText = `Dear ${user.name},
+
+  Your product "${product.modelName}" has been deleted by the admin.
+  
+  Best regards,
+  Your Team`;
+
+  await sendEmail(user.email, emailSubject, emailText);
+
+  res.status(200).send({ message: "Product deleted successfully and notification sent to the user." });
 };
 
 module.exports = {
